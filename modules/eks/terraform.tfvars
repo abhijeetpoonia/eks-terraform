@@ -1,0 +1,10 @@
+region = "us-east-2"
+cluster_name = "Floyo-dev"
+eks_version = "1.31"
+node_group_name = "Floyo-ng"
+instance_type = "t2.micro"
+desired_size = 2
+min_size = 1
+max_size = 3
+disk_size = 20
+env = "dev"
