@@ -22,3 +22,12 @@ output "eks_cluster_role_arn" {
 #   description = "The IDs of the subnets used by the EKS cluster"
 #   value       = data.terraform_remote_state.vpc.outputs.private_subnet_ids
 # }
+# VPC Outputs in modules/vpc/outputs.tf
+# Output the custom VPC ID
+
+
+ 
+
+ 
+
+

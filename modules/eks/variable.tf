@@ -11,6 +11,7 @@ variable "cluster_name" {
 variable "eks_version" {
   description = "The version of the EKS cluster"
   type        = string
+  default     = "1.31" 
 }
 
 variable "node_group_name" {
@@ -47,3 +48,20 @@ variable "env" {
   description = "Environment value"
   type        = string
 }
+
+variable "custom_vpc_name" {
+  description = "The name of the custom VPC"
+  type        = string
+  default     = "MyCustomVPC"   
+}
+
+variable "public_subnet_ids" {
+  description = "The name of the custom VPC"
+  type        = list
+}
+
+variable "private_subnet_ids" {
+  description = "The name of the custom VPC"
+  type        = list
+}
+

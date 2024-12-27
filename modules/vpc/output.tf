@@ -1,6 +1,6 @@
 output "vpc_id" {
   description = "The ID of the VPC"
-  value       = aws_vpc.my_vpc.id
+  value       = aws_vpc.vpc.id
 }
 
 output "public_subnet_ids" {
@@ -36,7 +36,7 @@ output "availability_zones" {
 output "vpc_tags" {
   description = "Tags for the VPC"
   value = {
-    Name        = aws_vpc.my_vpc.tags["Name"]
-    environment = aws_vpc.my_vpc.tags["environment"]
+    Name        = aws_vpc.vpc.tags["Name"]
+    environment = aws_vpc.vpc.tags["environment"]
   }
 }

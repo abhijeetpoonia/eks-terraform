@@ -8,3 +8,4 @@ min_size = 1
 max_size = 3
 disk_size = 20
 env = "dev"
+custom_vpc_name = "MyCustomVPC"

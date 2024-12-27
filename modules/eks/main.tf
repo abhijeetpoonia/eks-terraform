@@ -2,43 +2,20 @@ provider "aws" {
   region = var.region
 }
 
-# # Fetch the default VPC
-# data "aws_vpc" "default" {
-#   default = true
-# }
-
-# # Fetch subnets associated with the default VPC
-# data "aws_subnets" "default_vpc_subnets" {
-#   filter {
-#     name   = "vpc-id"
-#     values = [data.aws_vpc.default.id]
-#   }
-# }
-
-# Use VPC module outputs
-module "vpc" {
-  source = "/home/divyanshi/floyo/modules/vpc"
-  cidr_block           = var.vpc_cidr_block
-  private_subnet_cidrs = var.private_subnet_cidrs
-  public_subnet_cidrs  = var.public_subnet_cidrs
-}
-
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = var.eks_version
 
-  # vpc_config {
-  #   subnet_ids = data.terraform_remote_state.vpc.outputs.private_subnet_ids
-  # }
-
-  # vpc_config {
-  # subnet_ids = data.aws_subnets.default_vpc_subnets.ids
-  # }
+  
 
   vpc_config {
-  subnet_ids = module.vpc.private_subnet_ids
+    subnet_ids = concat(var.private_subnet_ids, var.public_subnet_ids)
+    endpoint_private_access = true
+    endpoint_public_access  = false
   }
 
+   
   depends_on = [
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSVPCResourceController
@@ -108,7 +85,7 @@ resource "aws_eks_node_group" "node-ec2" {
   node_group_name = var.node_group_name
   node_role_arn   = aws_iam_role.NodeGroupRole.arn
   # subnet_ids      = data.aws_subnets.default_vpc_subnets.ids
-  subnet_ids      = module.vpc.private_subnet_ids
+ subnet_ids = concat(var.private_subnet_ids, var.public_subnet_ids)
   
   scaling_config {
     desired_size = var.desired_size
